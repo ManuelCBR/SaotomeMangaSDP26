@@ -49,6 +49,7 @@
 		A576075D2F0134B000336089 = {
 			isa = PBXGroup;
 			children = (
+				A57607782F01372500336089 /* README.md */,
 				A576077A2F01372500336089 /* SaotomeMangaSDP26 */,
 				A57607672F0134B000336089 /* Products */,
 			);
@@ -70,7 +71,6 @@
 				A57607762F01372500336089 /* Assets.xcassets */,
 				A57607772F01372500336089 /* ContentView.swift */,
 				A57607792F01372500336089 /* SaotomeMangaSDP26App.swift */,
-				A57607782F01372500336089 /* README.md */,
 			);
 			path = SaotomeMangaSDP26;
 			sourceTree = "<group>";
