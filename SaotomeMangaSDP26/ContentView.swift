@@ -6,19 +6,17 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
+    @Query private var mangas: [Manga]
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        List(mangas) {manga in
+            Text(manga.title)
         }
-        .padding()
     }
 }
 
-#Preview {
+#Preview (traits: .sampleData){
     ContentView()
 }
