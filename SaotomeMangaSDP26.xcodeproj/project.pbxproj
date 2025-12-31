@@ -11,7 +11,7 @@
 		A5191C582F03A880005B7C89 /* GenreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5191C572F03A880005B7C89 /* GenreModel.swift */; };
 		A5191C5A2F03ADF1005B7C89 /* PreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5191C592F03ADF1005B7C89 /* PreviewData.swift */; };
 		A5191C5C2F043660005B7C89 /* PreviewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5191C5B2F043660005B7C89 /* PreviewContainer.swift */; };
-		A5191C652F053645005B7C89 /* NetworkAPI in Frameworks */ = {isa = PBXBuildFile; productRef = A5191C642F053645005B7C89 /* NetworkAPI */; };
+		A5191C682F053D48005B7C89 /* NetworkAPI in Frameworks */ = {isa = PBXBuildFile; productRef = A5191C672F053D48005B7C89 /* NetworkAPI */; };
 		A576077B2F01372500336089 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57607772F01372500336089 /* ContentView.swift */; };
 		A576077C2F01372500336089 /* SaotomeMangaSDP26App.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57607792F01372500336089 /* SaotomeMangaSDP26App.swift */; };
 		A576077D2F01372500336089 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A57607762F01372500336089 /* Assets.xcassets */; };
@@ -43,7 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5191C652F053645005B7C89 /* NetworkAPI in Frameworks */,
+				A5191C682F053D48005B7C89 /* NetworkAPI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,7 +118,7 @@
 			);
 			name = SaotomeMangaSDP26;
 			packageProductDependencies = (
-				A5191C642F053645005B7C89 /* NetworkAPI */,
+				A5191C672F053D48005B7C89 /* NetworkAPI */,
 			);
 			productName = SaotomeMangaSDP26;
 			productReference = A57607662F0134B000336089 /* SaotomeMangaSDP26.app */;
@@ -149,7 +149,7 @@
 			mainGroup = A576075D2F0134B000336089;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				A5191C632F053645005B7C89 /* XCLocalSwiftPackageReference "../NetworkAPI" */,
+				A5191C662F053D48005B7C89 /* XCRemoteSwiftPackageReference "NetworkAPI" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A57607672F0134B000336089 /* Products */;
@@ -404,16 +404,21 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		A5191C632F053645005B7C89 /* XCLocalSwiftPackageReference "../NetworkAPI" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../NetworkAPI;
+/* Begin XCRemoteSwiftPackageReference section */
+		A5191C662F053D48005B7C89 /* XCRemoteSwiftPackageReference "NetworkAPI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ManuelCBR/NetworkAPI.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
 		};
-/* End XCLocalSwiftPackageReference section */
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		A5191C642F053645005B7C89 /* NetworkAPI */ = {
+		A5191C672F053D48005B7C89 /* NetworkAPI */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = A5191C662F053D48005B7C89 /* XCRemoteSwiftPackageReference "NetworkAPI" */;
 			productName = NetworkAPI;
 		};
 /* End XCSwiftPackageProductDependency section */
