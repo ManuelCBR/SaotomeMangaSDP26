@@ -6,17 +6,56 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct ContentView: View {
-    @Query private var mangas: [Manga]
+    @State private var viewModel = MangaListViewModel()
+    
     var body: some View {
-        List(mangas) {manga in
-            Text(manga.title)
-        }
+        NavigationStack {
+                    Group {
+                        if viewModel.isLoading {
+                            ProgressView("Cargando mangas...")
+                        } else if let error = viewModel.errorMessage {
+                            Text(error)
+                                .foregroundStyle(.red)
+                        } else {
+                            List(viewModel.mangas) { manga in
+                                HStack{
+                                    VStack(alignment: .leading) {
+                                        Text(manga.title)
+                                            .font(.headline)
+                                        
+                                        if let score = manga.score {
+                                            Text("⭐️ \(score)")
+                                                .font(.subheadline)
+                                                .foregroundStyle(.secondary)
+                                        }
+                                    }
+                                    Spacer()
+                                    AsyncImage(url: manga.mainPicture) { image in
+                                        image
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 100)
+                                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                                    } placeholder: {
+                                        Image(systemName: "film")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 200)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .navigationTitle("Mangas")
+                }
+                .task {
+                    await viewModel.loadMangas()
+                }
     }
 }
 
-#Preview (traits: .sampleData){
+#Preview {
     ContentView()
 }

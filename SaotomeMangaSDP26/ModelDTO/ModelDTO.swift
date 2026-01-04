@@ -20,21 +20,19 @@ struct AuthorDTO: Codable, Sendable {
 }
 
 // MARK: - DTO para Theme
-/// Representa una temática del manga (ej: "Martial Arts", "Super Power")
 struct ThemeDTO: Codable, Sendable {
     let id: String
     let theme: String
 }
 
 // MARK: - DTO para Demographic
-/// Representa el público objetivo (ej: "Shounen", "Seinen")
+/// Público objetivo (ej: "Shounen", "Seinen")
 struct DemographicDTO: Codable, Sendable {
     let id: String
     let demographic: String
 }
 
 // MARK: - DTO para Genre
-/// Representa el género del manga (ej: "Action", "Comedy")
 struct GenreDTO: Codable, Sendable {
     let id: String
     let genre: String
@@ -66,18 +64,22 @@ struct MangaDTO: Codable, Sendable, Identifiable {
     let mainPicture: String?
     let url: String?
     
-    // Relaciones - la forma de casarlos es a través del UUID
-    let authors: UUID
-    let genres: UUID
-    let themes: UUID
-    let demographics: UUID
+    let authors: [AuthorDTO]
+    let genres: [GenreDTO]
+    let themes: [ThemeDTO]
+    let demographics: [DemographicDTO]
     
     /// Computed property para limpiar la URL de la imagen
     /// El JSON viene con comillas extras: "\"https://...\""
     /// Esta propiedad las elimina y devuelve una URL limpia
-//    var cleanImageURL: URL? {
-//        guard let mainPicture = mainPicture else { return nil }
-//        let cleanString = mainPicture.replacingOccurrences(of: "\"", with: "")
-//        return URL(string: cleanString)
-//    }
+    var cleanImageURL: URL? {
+        guard let mainPicture = mainPicture else { return nil }
+        let cleanString = mainPicture.replacingOccurrences(of: "\"", with: "")
+        return URL(string: cleanString)
+    }
+}
+
+struct MangaResponseDTO: Codable {
+    let metadata: Metadata
+    let items: [MangaDTO]
 }

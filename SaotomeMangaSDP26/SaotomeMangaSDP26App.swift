@@ -14,6 +14,5 @@ struct SaotomeMangaSDP26App: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: Manga.self)
     }
 }
