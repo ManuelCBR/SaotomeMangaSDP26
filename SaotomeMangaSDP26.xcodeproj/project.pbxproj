@@ -13,6 +13,8 @@
 		A5191C7B2F0B1188005B7C89 /* ExtensionsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5191C7A2F0B1188005B7C89 /* ExtensionsDTO.swift */; };
 		A5191C7D2F0B135E005B7C89 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5191C7C2F0B135E005B7C89 /* Model.swift */; };
 		A5191C7F2F0B182E005B7C89 /* MangaListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5191C7E2F0B182E005B7C89 /* MangaListViewModel.swift */; };
+		A5256BA52F0BA9BE00D5491F /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5256BA42F0BA9BE00D5491F /* DetailView.swift */; };
+		A5256BB52F0BEF1000D5491F /* TagSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5256BB42F0BEF1000D5491F /* TagSections.swift */; };
 		A576077B2F01372500336089 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57607772F01372500336089 /* ContentView.swift */; };
 		A576077C2F01372500336089 /* SaotomeMangaSDP26App.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57607792F01372500336089 /* SaotomeMangaSDP26App.swift */; };
 		A576077D2F01372500336089 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A57607762F01372500336089 /* Assets.xcassets */; };
@@ -26,6 +28,8 @@
 		A5191C7A2F0B1188005B7C89 /* ExtensionsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionsDTO.swift; sourceTree = "<group>"; };
 		A5191C7C2F0B135E005B7C89 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		A5191C7E2F0B182E005B7C89 /* MangaListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangaListViewModel.swift; sourceTree = "<group>"; };
+		A5256BA42F0BA9BE00D5491F /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		A5256BB42F0BEF1000D5491F /* TagSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagSections.swift; sourceTree = "<group>"; };
 		A57607662F0134B000336089 /* SaotomeMangaSDP26.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SaotomeMangaSDP26.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A57607762F01372500336089 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A57607772F01372500336089 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -71,6 +75,23 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		A5256BA32F0BA96400D5491F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				A57607772F01372500336089 /* ContentView.swift */,
+				A5256BA42F0BA9BE00D5491F /* DetailView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A5256BB32F0BEEFF00D5491F /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				A5256BB42F0BEF1000D5491F /* TagSections.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		A576075D2F0134B000336089 = {
 			isa = PBXGroup;
 			children = (
@@ -91,12 +112,13 @@
 		A576077A2F01372500336089 /* SaotomeMangaSDP26 */ = {
 			isa = PBXGroup;
 			children = (
+				A5256BB32F0BEEFF00D5491F /* Components */,
+				A5256BA32F0BA96400D5491F /* View */,
 				A5191C722F0AFCB7005B7C89 /* ViewModel */,
 				A5191C692F08BE4D005B7C89 /* Network */,
 				A576077F2F01397700336089 /* ModelDTO */,
 				A5191C752F0B0E49005B7C89 /* Model */,
 				A57607762F01372500336089 /* Assets.xcassets */,
-				A57607772F01372500336089 /* ContentView.swift */,
 				A57607792F01372500336089 /* SaotomeMangaSDP26App.swift */,
 			);
 			path = SaotomeMangaSDP26;
@@ -189,8 +211,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5191C7B2F0B1188005B7C89 /* ExtensionsDTO.swift in Sources */,
+				A5256BA52F0BA9BE00D5491F /* DetailView.swift in Sources */,
 				A5191C6D2F08C323005B7C89 /* NetworkRepository.swift in Sources */,
 				A57607812F0139FA00336089 /* ModelDTO.swift in Sources */,
+				A5256BB52F0BEF1000D5491F /* TagSections.swift in Sources */,
 				A576077B2F01372500336089 /* ContentView.swift in Sources */,
 				A5191C7D2F0B135E005B7C89 /* Model.swift in Sources */,
 				A5191C6B2F08BE5E005B7C89 /* URL.swift in Sources */,

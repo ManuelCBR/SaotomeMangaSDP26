@@ -12,11 +12,6 @@ struct AuthorDTO: Codable, Sendable {
     let firstName: String
     let lastName: String
     let role: String
-    
-    /// Computed property para obtener el nombre completo
-    var fullName: String {
-        "\(firstName) \(lastName)"
-    }
 }
 
 // MARK: - DTO para Theme
