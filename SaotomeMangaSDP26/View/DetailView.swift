@@ -9,9 +9,13 @@ import SwiftUI
 
 struct DetailView: View {
     let manga: Manga
+    
     @State private var showFullSynopsis = false
+    @State private var showEditProgress = false
+    @Environment(UserMangaCollectionViewModel.self) var userMangaCollectionViewModel
     
     var body: some View {
+        @Bindable var userMangaCollectionViewModel = userMangaCollectionViewModel
         ScrollView{
             //Portada
             AsyncImage(url: manga.mainPicture) { image in
@@ -37,7 +41,15 @@ struct DetailView: View {
                     .padding(.bottom, 1)
             }
             .padding(.horizontal)
-            
+            //Fechas
+            HStack{
+                Spacer()
+                Text("From \(manga.startDateFormatted ?? "") to \(manga.endDateFormatted ?? "")")
+                    .font(.footnote)
+                    .foregroundStyle(.gray)
+                    .padding(.bottom, 1)
+            }
+            .padding(.horizontal)
             //Título Japonés y puntuación
             HStack{
                 Text(manga.titleJapanese ?? "N/A")
@@ -58,9 +70,9 @@ struct DetailView: View {
                         .foregroundStyle(.orange)
                     Spacer()
                     Button {
-                        //Agregar a colección
+                        userMangaCollectionViewModel.toggleCollection(manga)
                     } label: {
-                        Image(systemName: "bookmark")
+                        Image(systemName: userMangaCollectionViewModel.isInCollection(manga.id) ? "bookmark.fill" : "bookmark")
                             .foregroundStyle(.orange)
                     }
 
@@ -73,23 +85,44 @@ struct DetailView: View {
             
             //Géneros y demografía
             HStack (alignment: .top){
-                TagSections(title: "Genres", items: manga.genres.map { $0.genre })
+                TagSections(
+                    title: "Genres",
+                    items: manga.genres.map { $0.genre },
+                    symbol: "circle.hexagonpath.fill"
+                )
                     .padding(.trailing, 50)
-                TagSections(title: "Demographics", items: manga.demographics.map { $0.demographic })
+                TagSections(
+                    title: "Demographics",
+                    items: manga.demographics.map { $0.demographic },
+                    symbol: "globe.europe.africa.fill"
+                )
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()
             //Autores y temas
             HStack (alignment: .top){
-                TagSections(title: "Themes", items: manga.themes.map { $0.theme })
+                TagSections(
+                    title: "Themes",
+                    items: manga.themes.isEmpty ? ["N/A"] : manga.themes.map { $0.theme },
+                    symbol: "text.bubble"
+                )
                     .padding(.trailing, 50)
-                TagSections(title: "Authors", items: manga.authors.map { $0.fullName })
+                TagSections(
+                    title: "Authors",
+                    items: manga.authors.map { $0.fullName },
+                    symbol: "person.fill"
+                )
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal)
             
             // Synopsis
+            
             VStack(alignment: .leading) {
+                Text("Synopsis")
+                    .font(.headline)
+                    .foregroundStyle(.secondary)
+                    .padding(.vertical,1)
                 Text(manga.sypnosis ?? "")
                     .lineLimit(showFullSynopsis ? nil : 3)
                     .truncationMode(.tail)
@@ -103,6 +136,75 @@ struct DetailView: View {
                 .foregroundStyle(.yellow)
             }
             .padding()
+            
+            //Datos de colección si procede
+            if let userManga = userMangaCollectionViewModel.getMangaFromCollection(manga.id) {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Mi Progreso")
+                        .font(.headline)
+                        .foregroundStyle(.secondary)
+                        .padding(.vertical, 1)
+                    
+                    // Progreso visual
+                    HStack(spacing: 20) {
+                        // Tomos que tienes
+                        VStack {
+                            Label("\(userManga.volumesOwned)", systemImage: "books.vertical.fill")
+                                .font(.title2)
+                                .foregroundStyle(.blue)
+                            Text("Tomos")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                        
+                        Divider()
+                            .frame(height: 40)
+                        
+                        // Tomo leyendo
+                        VStack {
+                            Label("\(userManga.readingVolume)", systemImage: "book.fill")
+                                .font(.title2)
+                                .foregroundStyle(.green)
+                            Text("Leyendo")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                        
+                        Divider()
+                            .frame(height: 40)
+                        
+                        // Colección completa
+                        VStack {
+                            Image(systemName: userManga.hasCompleteCollection ? "checkmark.circle.fill" : "circle")
+                                .font(.title2)
+                                .foregroundStyle(userManga.hasCompleteCollection ? .green : .gray)
+                            Text("Completa")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
+                    
+                    // Botón para editar progreso
+                    Button {
+                        showEditProgress = true
+                    } label: {
+                        Label("Editar Progreso", systemImage: "pencil")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(.yellow.opacity(0.2), in: RoundedRectangle(cornerRadius: 12))
+                            .foregroundStyle(.yellow)
+                    }
+                }
+                .padding()
+            }
+        }
+        .sheet(isPresented: $showEditProgress) {
+            if let userManga = userMangaCollectionViewModel.getMangaFromCollection(manga.id) {
+                ProgressEditView(userManga: userManga)
+            }
         }
         .background {
             AsyncImage(url: manga.mainPicture) { image in
@@ -123,4 +225,5 @@ struct DetailView: View {
 
 #Preview {
     DetailView(manga: .test)
+        .environment(UserMangaCollectionViewModel())
 }

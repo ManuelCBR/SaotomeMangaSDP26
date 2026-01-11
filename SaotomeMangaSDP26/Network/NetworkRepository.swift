@@ -14,6 +14,11 @@ struct NetworkRepository: NetworkInteractor {
         return response.items
     }
     
+    func getManga(id: Int) async throws -> MangaDTO {
+        let response = try await getJSON(.get(url: .getManga(id: id)), type: MangaResponseDTO.self)
+        return response.items.first!
+    }
+    
     func getBestMangas() async throws -> [MangaDTO] {
         let response = try await getJSON(.get(url: .getBestMangas), type: MangaResponseDTO.self)
         return response.items

@@ -64,7 +64,27 @@ struct Manga: Identifiable, Hashable {
     let demographics: [Demographic]
     
     var scoreText: String {
-        score.map { String(format: "%.2f", $0) } ?? "Sin puntuación"
+        score.map { String(format: "%.2f", $0) } ?? "N/A"
+    }
+    
+    private func parseDate(_ dateString: String?) -> Date? {
+        guard let dateString = dateString else { return nil }
+        let formatter = ISO8601DateFormatter()
+        return formatter.date(from: dateString)
+    }
+    
+    var startDateFormatted: String? {
+        guard let date = parseDate(startDate) else { return nil }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        return formatter.string(from: date)
+    }
+    
+    var endDateFormatted: String? {
+        guard let date = parseDate(endDate) else { return nil }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        return formatter.string(from: date)
     }
 }
 
@@ -80,8 +100,8 @@ extension Manga {
         title: "Monster",
         titleEnglish: "Monster",
         titleJapanese: "MONSTER",
-        startDate: "1994-12-05T00:00:00Z",
-        endDate: "2001-12-20T00:00:00Z",
+        startDate: "1994-12-05T00:00:00Z",//Date.now,//,
+        endDate: "2001-12-20T00:00:00Z",//Date.now,//,
         status: "finished",
         volumes: 18,
         chapters: 162,

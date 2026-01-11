@@ -9,17 +9,18 @@ import SwiftUI
 
 struct TagSections: View {
     let title: String
-    let items: [String]
+    let items: [String]?
+    let symbol: String
     
     var body: some View {
         VStack(alignment: .leading){
             HStack{
-                Image(systemName: "circle.hexagonpath.fill")
+                Image(systemName: symbol)
                 Text(title)
                     .font(.headline)
             }
             .padding(.bottom, 2)
-            ForEach(items, id: \.self) { item in
+            ForEach(items ?? ["N/A"], id: \.self) { item in
                 Text(item)
                 .padding(.horizontal, 6)
                     .background(Capsule().fill(.yellow.opacity(0.2)))
@@ -30,5 +31,5 @@ struct TagSections: View {
 }
 
 #Preview {
-    TagSections(title: "Authors", items: ["Naoki Urasawa"])
+    TagSections(title: "Authors", items: ["Naoki Urasawa"], symbol: "circle.hexagonpath.fill")
 }

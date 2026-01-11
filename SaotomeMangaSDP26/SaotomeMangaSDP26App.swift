@@ -10,9 +10,15 @@ import SwiftData
 
 @main
 struct SaotomeMangaSDP26App: App {
+    @State private var vmMangaList = MangaListViewModel()
+    @State private var vmUserCollection = UserMangaCollectionViewModel()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(vmMangaList)
+                .environment(vmUserCollection)
         }
+        .modelContainer(for: UserMangaCollection.self)
     }
 }

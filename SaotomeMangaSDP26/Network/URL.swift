@@ -29,4 +29,8 @@ extension URL {
         ]
         return url.appending(queryItems: queryItems)
     }
+    
+    static func getManga(id: Int) -> URL {
+        api.appending(path: "/search/manga/\(id)")
+    }
 }

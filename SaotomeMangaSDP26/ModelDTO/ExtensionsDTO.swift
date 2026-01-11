@@ -47,6 +47,7 @@ extension GenreDTO {
 
 extension MangaDTO {
     func toManga() -> Manga {
+
         Manga(
             id: id,
             title: title,
