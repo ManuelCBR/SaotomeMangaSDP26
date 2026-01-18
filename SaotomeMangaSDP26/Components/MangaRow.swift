@@ -42,14 +42,9 @@ struct MangaRow: View {
                         .bold()
                         .foregroundStyle(.primary)
                     Spacer()
-                    Button {
-                        //action
-                    } label: {
-                        Image(systemName:  isFavorite ? "bookmark.fill" : "bookmark")
-                            .foregroundStyle(.orange)
-                    }
-
-                    
+                    Image(systemName:  isFavorite ? "bookmark.fill" : "bookmark")
+                        .foregroundStyle(.orange)
+              
                 }
                 .padding(.bottom, 1)
                 Text(manga.titleJapanese ?? "N/A")

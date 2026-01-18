@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct DetailView: View {
     let manga: Manga
@@ -13,6 +14,11 @@ struct DetailView: View {
     @State private var showFullSynopsis = false
     @State private var showEditProgress = false
     @Environment(UserMangaCollectionViewModel.self) var userMangaCollectionViewModel
+    @Query private var userCollection: [UserMangaCollection]
+        
+    private var isInCollection: Bool {
+        userCollection.contains(where: { $0.id == manga.id })
+    }
     
     var body: some View {
         @Bindable var userMangaCollectionViewModel = userMangaCollectionViewModel
@@ -72,8 +78,8 @@ struct DetailView: View {
                     Button {
                         userMangaCollectionViewModel.toggleCollection(manga)
                     } label: {
-                        Image(systemName: userMangaCollectionViewModel.isInCollection(manga.id) ? "bookmark.fill" : "bookmark")
-                            .foregroundStyle(.orange)
+                        Image(systemName: isInCollection ? "bookmark.fill" : "bookmark")
+                                .foregroundStyle(.orange)
                     }
 
                 }
@@ -99,7 +105,7 @@ struct DetailView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()
-            //Autores y temas
+            // Autores y temas
             HStack (alignment: .top){
                 TagSections(
                     title: "Themes",
@@ -117,7 +123,6 @@ struct DetailView: View {
             .padding(.horizontal)
             
             // Synopsis
-            
             VStack(alignment: .leading) {
                 Text("Synopsis")
                     .font(.headline)

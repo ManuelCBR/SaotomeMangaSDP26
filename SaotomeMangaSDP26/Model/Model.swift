@@ -132,3 +132,12 @@ extension Manga {
         ]
     )
 }
+
+extension Author {
+    static let test = Author(
+        id: UUID(),
+        firstName: "Naoki",
+        lastName: "Urasawa",
+        role: "Story & Art"
+    )
+}

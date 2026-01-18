@@ -11,12 +11,20 @@ struct ContentView: View {
     
     var body: some View {
             TabView {
-                Tab("Mangas", systemImage: "safari") {
-                    MangaListView()
+                TabSection{
+                    Tab("Mangas", systemImage: "safari") {
+                        MangaListView()
+                    }
+                    
+                    Tab("My Collection", systemImage: "bookmark") {
+                        UserMangaCollectionView()
+                    }
                 }
                 
-                Tab("My Collection", systemImage: "bookmark") {
-                    UserMangaCollectionView()
+                TabSection{
+                    Tab("Search", systemImage: "magnifyingglass", role: .search) {
+                        SearchView()
+                    }
                 }
             }
             .preferredColorScheme(.dark)

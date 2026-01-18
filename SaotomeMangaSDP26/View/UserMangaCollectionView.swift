@@ -16,7 +16,7 @@ struct UserMangaCollectionView: View {
         @Bindable var userMangaCollectionViewModel = userMangaCollectionViewModel
         
         NavigationStack {
-            Group {  // ← Envuelve el if/else en Group
+            Group {
                 if userMangaCollection.isEmpty {
                     ContentUnavailableView(
                         "Empty Collection",
@@ -26,7 +26,7 @@ struct UserMangaCollectionView: View {
                 } else {
                     List(userMangaCollection) { userManga in
                         NavigationLink(value: userManga) {
-                            UserMangaRow(userMangaCollection: userManga)
+                            MangaRow(manga: userManga.toManga())
                                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                     Button(role: .destructive) {
                                         userMangaCollectionViewModel.removeFromCollection(from: userManga.id)
