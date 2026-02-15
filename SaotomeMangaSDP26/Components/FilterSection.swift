@@ -7,11 +7,18 @@
 
 import SwiftUI
 
+enum SectionType {
+    case genre
+    case demographic
+    case theme
+}
+
 struct FilterSection: View {
     let title: String
     let systemImage: String
     let items: [String]
     let isLoading: Bool
+    let sectionType: SectionType
     @Binding var showAll: Bool
     let dataSourceBuilder: (String) -> DataSource
     
@@ -47,10 +54,18 @@ struct FilterSection: View {
                     .padding(.horizontal)
             } else {
                 LazyVGrid(columns: columns, spacing: 12) {
-                    ForEach(items.prefix(4), id: \.self) { item in  // ⬅️ 4 elementos (2x2)
+                    ForEach(items.prefix(4), id: \.self) { item in
                         NavigationLink(value: dataSourceBuilder(item)) {
-                            FilterGridItem(text: item)
+                            switch sectionType {
+                            case .genre:
+                                GenreGridItem(text: item)
+                            case .demographic:
+                                DemographicGridItem(text: item)
+                            case .theme:
+                                ThemeGridItem(text: item)
+                            }
                         }
+                        .buttonStyle(.plain)
                     }
                 }
                 .padding(.horizontal)

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct AuthorGridSection: View {
+    let authors: [Author]
+    let isLoading: Bool
     @Binding var showAll: Bool
     
     let columns = [
@@ -22,39 +24,45 @@ struct AuthorGridSection: View {
                     .font(.title2)
                     .bold()
                 Spacer()
-                Button("See All") {
-                    showAll = true
+                if !authors.isEmpty {
+                    Button("See All") {
+                        showAll = true
+                    }
+                    .font(.subheadline)
+                    .foregroundStyle(.yellow)
                 }
-                .font(.subheadline)
-                .foregroundStyle(.yellow)
             }
             .padding(.horizontal)
             
-            // Grid 2x2 con placeholders visuales
-            LazyVGrid(columns: columns, spacing: 12) {
-                ForEach(0..<4, id: \.self) { _ in
-                    Button {
-                        showAll = true
-                    } label: {
-                        HStack {
-                            Image(systemName: "person.circle")
-                                .font(.title2)
-                            Text("Search authors...")
-                                .font(.subheadline)
-                            Spacer()
+            if isLoading {
+                ProgressView()
+                    .frame(maxWidth: .infinity)
+                    .padding()
+            } else if authors.isEmpty {
+                Text("No authors available")
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal)
+            } else {
+                // Grid 2x2 con los primeros 4 autores
+                LazyVGrid(columns: columns, spacing: 12) {
+                    ForEach(authors.prefix(4)) { author in
+                        NavigationLink(
+                            value: DataSource.author(
+                                authorID: author.id.uuidString,
+                                authorName: author.fullName
+                            )
+                        ) {
+                            AuthorGridItem(author: author)
                         }
-                        .padding()
-                        .frame(height: 80)
-                        .background(.orange.opacity(0.2), in: RoundedRectangle(cornerRadius: 12))
-                        .foregroundStyle(.orange)
                     }
                 }
+                .padding(.horizontal)
             }
-            .padding(.horizontal)
         }
     }
 }
 
-#Preview {
-    AuthorGridSection(showAll: .constant(false))
+#Preview() {
+    AuthorGridSection(authors: [.test], isLoading: false, showAll: .constant(false))
 }
+

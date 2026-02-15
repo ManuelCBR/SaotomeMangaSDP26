@@ -27,19 +27,19 @@ struct ProgressEditView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Tomos que tienes") {
-                    Stepper("\(volumesOwned) tomos", value: $volumesOwned, in: 0...999)
+                Section("Volumes you own") {
+                    Stepper("\(volumesOwned) volumes", value: $volumesOwned, in: 0...999)
                 }
                 
-                Section("Tomo que estás leyendo") {
-                    Stepper("Tomo \(readingVolume)", value: $readingVolume, in: 0...volumesOwned)
+                Section("Volume you are reading") {
+                    Stepper("Volume \(readingVolume)", value: $readingVolume, in: 0...volumesOwned)
                 }
                 
                 Section {
-                    Toggle("Tengo la colección completa", isOn: $hasCompleteCollection)
+                    Toggle("Complete collection", isOn: $hasCompleteCollection)
                 }
             }
-            .navigationTitle("Editar Progreso")
+            .navigationTitle("Edit progress")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

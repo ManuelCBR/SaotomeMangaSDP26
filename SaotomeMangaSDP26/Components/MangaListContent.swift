@@ -91,6 +91,3 @@ struct MangaListContent: View {
     }
 }
 
-//#Preview {
-//    MangaListContent(mangas: [Manga.test], isLoading: false, isLoadingMore: false, errorMessage: "", onLoadMore: MangaListViewModel.loadMoreIfNeeded(currentManga: Manga.test))
-//}

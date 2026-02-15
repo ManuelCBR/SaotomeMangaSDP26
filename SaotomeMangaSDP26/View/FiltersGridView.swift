@@ -12,10 +12,11 @@ struct FiltersGridView: View {
     
     let title: String
     let items: [String]
+    let sectionType: SectionType
     let dataSourceBuilder: (String) -> DataSource
     
     let columns = [
-        GridItem(.adaptive(minimum: 150), spacing: 12)
+        GridItem(.adaptive(minimum: 160), spacing: 12)
     ]
     
     var body: some View {
@@ -24,78 +25,24 @@ struct FiltersGridView: View {
                 LazyVGrid(columns: columns, spacing: 12) {
                     ForEach(items, id: \.self) { item in
                         NavigationLink(value: dataSourceBuilder(item)) {
-                            Text(item)
-                                .font(.subheadline)
-                                .fontWeight(.medium)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(.yellow.opacity(0.2), in: RoundedRectangle(cornerRadius: 12))
-                                .foregroundStyle(.yellow)
-                        }
-                    }
-                }
-                .padding()
-            }
-            .navigationTitle(title)
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationDestination(for: DataSource.self) { dataSource in
-                FilteredMangaListView(dataSource: dataSource)
-            }
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "xmark")
-                    }
-                }
-            }
-        }
-        .preferredColorScheme(.dark)
-    }
-}
-
-// MARK: - AuthorsGridView (para autores)
-
-struct AuthorsGridView: View {
-    @Environment(\.dismiss) var dismiss
-    
-    let authors: [Author]
-    
-    let columns = [
-        GridItem(.adaptive(minimum: 150), spacing: 12)
-    ]
-    
-    var body: some View {
-        NavigationStack {
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: 12) {
-                    ForEach(authors) { author in
-                        NavigationLink(
-                            value: DataSource.author(
-                                authorID: author.id.uuidString,
-                                authorName: author.fullName
-                            )
-                        ) {
-                            VStack(alignment: .leading) {
-                                Text(author.fullName)
-                                    .font(.subheadline)
-                                    .fontWeight(.medium)
-                                Text(author.role)
-                                    .font(.caption2)
-                                    .foregroundStyle(.secondary)
+                            // Usar el componente visual según el tipo
+                            switch sectionType {
+                            case .genre:
+                                GenreGridItem(text: item)
+                            case .demographic:
+                                DemographicGridItem(text: item)
+                            case .theme:
+                                ThemeGridItem(text: item)
                             }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding()
-                            .background(.yellow.opacity(0.2), in: RoundedRectangle(cornerRadius: 12))
-                            .foregroundStyle(.yellow)
                         }
+                        .buttonStyle(.plain)
                     }
                 }
                 .padding()
             }
-            .navigationTitle("All Authors")
-            .navigationBarTitleDisplayMode(.inline)
+            .background(Color(uiColor: .systemGroupedBackground))
+            .navigationTitle(title)
+            .navigationBarTitleDisplayMode(.large)
             .navigationDestination(for: DataSource.self) { dataSource in
                 FilteredMangaListView(dataSource: dataSource)
             }
@@ -104,7 +51,9 @@ struct AuthorsGridView: View {
                     Button {
                         dismiss()
                     } label: {
-                        Image(systemName: "xmark")
+                        Image(systemName: "xmark.circle.fill")
+                            .symbolRenderingMode(.hierarchical)
+                            .foregroundStyle(.secondary)
                     }
                 }
             }
@@ -112,12 +61,12 @@ struct AuthorsGridView: View {
         .preferredColorScheme(.dark)
     }
 }
-
+    
 #Preview("Filters Grid - Genres") {
     FiltersGridView(
         title: "Genres",
         items: ["Shounen", "Seinen", "Shoujo", "Josei", "Isekai"],
-        dataSourceBuilder: { genre in
+        sectionType: .genre, dataSourceBuilder: { genre in
             DataSource.genre("Josei")
         }
     )

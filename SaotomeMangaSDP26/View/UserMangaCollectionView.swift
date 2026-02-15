@@ -10,11 +10,14 @@ import SwiftData
 
 struct UserMangaCollectionView: View {
     @Environment(UserMangaCollectionViewModel.self) var userMangaCollectionViewModel
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @Query private var userMangaCollection: [UserMangaCollection]
     
+    private var mangas: [Manga] {
+        userMangaCollection.map { $0.toManga() }
+    }
+    
     var body: some View {
-        @Bindable var userMangaCollectionViewModel = userMangaCollectionViewModel
-        
         NavigationStack {
             Group {
                 if userMangaCollection.isEmpty {
@@ -24,19 +27,45 @@ struct UserMangaCollectionView: View {
                         description: Text("Aún no has guardado ningún manga en tu colección")
                     )
                 } else {
-                    List(userMangaCollection) { userManga in
-                        NavigationLink(value: userManga) {
-                            MangaRow(manga: userManga.toManga())
-                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                    Button(role: .destructive) {
-                                        userMangaCollectionViewModel.removeFromCollection(from: userManga.id)
-                                    } label: {
-                                        Label("Eliminar", systemImage: "trash")
+                    if horizontalSizeClass == .regular {
+                        ScrollView {
+                            LazyVGrid(
+                                columns: [
+                                    GridItem(.adaptive(minimum: 250, maximum: 250), spacing: 16)
+                                ],
+                                spacing: 16
+                            ) {
+                                ForEach(userMangaCollection) { userManga in
+                                    NavigationLink(value: userManga) {
+                                        MangaCard(manga: userManga.toManga())
+                                    }
+                                    .buttonStyle(.plain)
+                                    .contextMenu {
+                                        Button(role: .destructive) {
+                                            userMangaCollectionViewModel.removeFromCollection(from: userManga.id)
+                                        } label: {
+                                            Label("Delete", systemImage: "trash")
+                                        }
                                     }
                                 }
+                            }
+                            .padding()
                         }
+                    } else {
+                        List(userMangaCollection) { userManga in
+                            NavigationLink(value: userManga) {
+                                MangaRow(manga: userManga.toManga())
+                                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                        Button(role: .destructive) {
+                                            userMangaCollectionViewModel.removeFromCollection(from: userManga.id)
+                                        } label: {
+                                            Label("Eliminar", systemImage: "trash")
+                                        }
+                                    }
+                            }
+                        }
+                        .listStyle(.plain)
                     }
-                    .listStyle(.plain)
                 }
             }
             .navigationTitle("My Collection")

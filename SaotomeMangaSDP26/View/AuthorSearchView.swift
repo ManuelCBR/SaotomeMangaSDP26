@@ -14,6 +14,10 @@ struct AuthorSearchView: View {
     @State private var searchText = ""
     var viewModel: SearchFilterViewModel
     
+    let columns = [
+        GridItem(.adaptive(minimum: 160), spacing: 12)
+    ]
+    
     var body: some View {
         NavigationStack {
             Group {
@@ -38,30 +42,23 @@ struct AuthorSearchView: View {
                         description: Text("No authors found for '\(searchText)'")
                     )
                 } else {
-                    List(viewModel.searchedAuthors) { author in
-                        NavigationLink(
-                            value: DataSource.author(
-                                authorID: author.id.uuidString,
-                                authorName: author.fullName
-                            )
-                        ) {
-                            HStack(spacing: 12) {
-                                Image(systemName: "person.circle.fill")
-                                    .font(.system(size: 40))
-                                    .foregroundStyle(.orange.opacity(0.7))
-                                
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(author.fullName)
-                                        .font(.headline)
-                                    Text(author.role)
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
+                    ScrollView {
+                        LazyVGrid(columns: columns, spacing: 12) {
+                            ForEach(viewModel.searchedAuthors) { author in
+                                NavigationLink(
+                                    value: DataSource.author(
+                                        authorID: author.id.uuidString,
+                                        authorName: author.fullName
+                                    )
+                                ) {
+                                    AuthorGridItem(author: author)
                                 }
+                                .buttonStyle(.plain)
                             }
-                            .padding(.vertical, 4)
                         }
+                        .padding()
                     }
-                    .listStyle(.plain)
+                    .background(Color(uiColor: .systemGroupedBackground))
                 }
             }
             .navigationTitle("Authors")

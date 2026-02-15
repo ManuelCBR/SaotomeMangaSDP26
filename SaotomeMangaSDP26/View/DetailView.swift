@@ -13,9 +13,12 @@ struct DetailView: View {
     
     @State private var showFullSynopsis = false
     @State private var showEditProgress = false
+    
     @Environment(UserMangaCollectionViewModel.self) var userMangaCollectionViewModel
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    
     @Query private var userCollection: [UserMangaCollection]
-        
+
     private var isInCollection: Bool {
         userCollection.contains(where: { $0.id == manga.id })
     }
@@ -28,6 +31,7 @@ struct DetailView: View {
                 image
                     .resizable()
                     .scaledToFit()
+                    .frame(maxWidth: horizontalSizeClass == .regular ? 400 : .infinity)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .opacity(0.8)
                     .padding()
@@ -35,6 +39,7 @@ struct DetailView: View {
                 Image(systemName: "film")
                     .resizable()
                     .scaledToFit()
+                    .frame(maxWidth: horizontalSizeClass == .regular ? 400 : .infinity)
                     .clipShape(RoundedRectangle(cornerRadius: 25))
                     .padding()
             }

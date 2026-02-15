@@ -16,10 +16,7 @@ struct SearchView: View {
     @State private var showAllThemes = false
     @State private var showAllAuthors = false
     
-    let columns = [
-        GridItem(.flexible(), spacing: 12),
-        GridItem(.flexible(), spacing: 12)
-    ]
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
     
     var body: some View {
         NavigationStack {
@@ -43,12 +40,13 @@ struct SearchView: View {
                     ScrollView {
                         VStack(alignment: .leading, spacing: 24) {
                             
-                            // SECCIÓN: Géneros (Grid 2x2)
+                            // SECCIÓN: Géneros
                             FilterSection(
                                 title: "Genres",
                                 systemImage: "circle.hexagonpath.fill",
                                 items: searchFilterViewModel.availableGenres,
                                 isLoading: searchFilterViewModel.isLoading,
+                                sectionType: .genre,
                                 showAll: $showAllGenres,
                                 dataSourceBuilder: { .genre($0) }
                             )
@@ -56,12 +54,13 @@ struct SearchView: View {
                             Divider()
                                 .padding(.horizontal)
                             
-                            // SECCIÓN: Demografías (Grid 2x2)
+                            // SECCIÓN: Demografías
                             FilterSection(
                                 title: "Demographics",
                                 systemImage: "globe.europe.africa.fill",
                                 items: searchFilterViewModel.availableDemographics,
                                 isLoading: searchFilterViewModel.isLoading,
+                                sectionType: .demographic,
                                 showAll: $showAllDemographics,
                                 dataSourceBuilder: { .demographic($0) }
                             )
@@ -69,12 +68,13 @@ struct SearchView: View {
                             Divider()
                                 .padding(.horizontal)
                             
-                            // SECCIÓN: Temas (Grid 2x2)
+                            // SECCIÓN: Temas
                             FilterSection(
                                 title: "Themes",
                                 systemImage: "text.bubble",
                                 items: searchFilterViewModel.availableThemes,
                                 isLoading: searchFilterViewModel.isLoading,
+                                sectionType: .theme,
                                 showAll: $showAllThemes,
                                 dataSourceBuilder: { .theme($0) }
                             )
@@ -82,8 +82,12 @@ struct SearchView: View {
                             Divider()
                                 .padding(.horizontal)
                             
-                            // SECCIÓN: Autores (Grid 2x2 - pero sin cargar)
-                            AuthorGridSection(showAll: $showAllAuthors)
+                            // SECCIÓN: Autores
+                            AuthorGridSection(
+                                authors: searchFilterViewModel.availableAuthors,
+                                isLoading: searchFilterViewModel.isLoading,
+                                showAll: $showAllAuthors
+                            )
                         }
                         .padding(.vertical)
                     }
@@ -98,28 +102,31 @@ struct SearchView: View {
                 placement: .toolbarPrincipal,
                 prompt: "Search manga title..."
             )
-            .sheet(isPresented: $showAllGenres) {
+            .fullScreenCover(isPresented: $showAllGenres) {
                 FiltersGridView(
                     title: "All Genres",
                     items: searchFilterViewModel.availableGenres,
+                    sectionType: .genre,
                     dataSourceBuilder: { .genre($0) }
                 )
             }
-            .sheet(isPresented: $showAllDemographics) {
+            .fullScreenCover(isPresented: $showAllDemographics) {
                 FiltersGridView(
                     title: "All Demographics",
                     items: searchFilterViewModel.availableDemographics,
+                    sectionType: .demographic,
                     dataSourceBuilder: { .demographic($0) }
                 )
             }
-            .sheet(isPresented: $showAllThemes) {
+            .fullScreenCover(isPresented: $showAllThemes) {
                 FiltersGridView(
                     title: "All Themes",
                     items: searchFilterViewModel.availableThemes,
+                    sectionType: .theme,
                     dataSourceBuilder: { .theme($0) }
                 )
             }
-            .sheet(isPresented: $showAllAuthors) {
+            .fullScreenCover(isPresented: $showAllAuthors) {
                 AuthorSearchView(viewModel: searchFilterViewModel)
             }
         }
