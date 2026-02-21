@@ -72,9 +72,9 @@ final class SearchFilterViewModel {
             return
         }
         
-        // Crear nueva tarea de búsqueda con debounce
+        // Crear nueva tarea de búsqueda
         searchTask = Task {
-            // Esperar 300ms antes de buscar (debounce)
+            // Esperar 300ms antes de buscar
             try? await Task.sleep(for: .milliseconds(300))
             
             // Si la tarea fue cancelada, no continuar
@@ -91,17 +91,12 @@ final class SearchFilterViewModel {
                 
                 // Mapear DTOs a modelos
                 searchedAuthors = authorDTOs.map { $0.toAuthor() }
-                
-                print("✅ Encontrados \(searchedAuthors.count) autores para '\(query)'")
-                
             } catch {
                 guard !Task.isCancelled else { return }
                 
                 authorSearchError = error.localizedDescription
                 searchedAuthors = []
-                print("❌ Error buscando autores:", error)
             }
-            
             isSearchingAuthors = false
         }
     }

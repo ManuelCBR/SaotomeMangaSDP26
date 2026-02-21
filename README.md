@@ -6,6 +6,30 @@ Proyecto final de la formación Swift Developer Program 25/26 de Apple Coding Ac
 
 **SaotomeMangaSDP26** permite a los usuarios explorar un extenso catálogo de mangas, organizarlos por diferentes categorías y gestionar su colección personal indicando qué tomos han adquirido y por cuál van leyendo.
 
+## 📱 Screenshots
+
+### iPhone
+<p align="center">
+  <img src="Screenshots/iPhone1.png" width="160">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="Screenshots/iPhone2.png" width="160">
+</p>
+
+<p align="center">
+    <img src="Screenshots/iPhone3.png" width="160">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <img src="Screenshots/iPhone4.png" width="160">
+</p>
+
+### iPad
+<p align="center">
+  <img src="Screenshots/iPad1.png" width="250">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="Screenshots/iPad2.png" width="250">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="Screenshots/iPad3.png" width="250">
+</p>
+
 ## ✨ Características Principales
 
 ### Exploración y Búsqueda
@@ -40,7 +64,7 @@ Proyecto final de la formación Swift Developer Program 25/26 de Apple Coding Ac
 
 ## 🛠️ Tecnologías
 
-- Swift 6 y SwiftUI
+- Swift 6,  SwiftUI y SwiftData
 - Consumo de API REST
 - Persistencia local de datos
 - Arquitectura MVVM adaptada a SwiftUI
@@ -71,9 +95,6 @@ https://mymanga-acacademy-5607149ebe3d.herokuapp.com/
 1. Clona el repositorio.
 2. Abre `SaotomeMangaSDP26.xcodeproj` o `.xcworkspace`.
 3. Ejecuta en un simulador o dispositivo.
-
-## Capturas
-In progress...
 
 ## Licencia
 MIT

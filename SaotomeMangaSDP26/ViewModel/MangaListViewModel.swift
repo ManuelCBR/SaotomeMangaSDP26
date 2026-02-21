@@ -29,7 +29,7 @@ final class MangaListViewModel {
     
     // Carga la primera página de mangas (reset completo)
     func loadMangas(source: DataSource = .all) async {
-        // Si ya estamos cargando, no hacer nada
+        // Si ya estamos cargando, no hacemos nada
         guard !isLoading else { return }
         
         dataSource = source

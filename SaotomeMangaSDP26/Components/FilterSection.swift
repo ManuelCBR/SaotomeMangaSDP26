@@ -73,7 +73,3 @@ struct FilterSection: View {
         }
     }
 }
-
-//#Preview {
-//    FilterSection(title: "Genres", systemImage: "circle.hexagonpath.fill", items: [], isLoading: false, showAll: false, dataSourceBuilder: DataSource.genre(""))
-//}

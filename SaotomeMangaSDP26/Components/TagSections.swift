@@ -11,25 +11,39 @@ struct TagSections: View {
     let title: String
     let items: [String]?
     let symbol: String
-    
-    var body: some View {
-        VStack(alignment: .leading){
-            HStack{
-                Image(systemName: symbol)
-                Text(title)
-                    .font(.headline)
-            }
-            .padding(.bottom, 2)
-            ForEach(items ?? ["N/A"], id: \.self) { item in
-                Text(item)
-                .padding(.horizontal, 6)
-                    .background(Capsule().fill(.yellow.opacity(0.2)))
-                    .foregroundStyle(.yellow)
+    let accentColor: Color
+        
+        var body: some View {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(spacing: 6) {
+                    Image(systemName: symbol)
+                        .font(.subheadline)
+                    Text(title)
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                }
+                .foregroundStyle(.secondary)
+                
+                ForEach(items ?? ["N/A"], id: \.self) { item in
+                    Text(item)
+                        .font(.caption)
+                        .fontWeight(.medium)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 5)
+                        .background(
+                            Capsule()
+                                .fill(accentColor.opacity(0.15))
+                                .overlay(
+                                    Capsule()
+                                        .strokeBorder(accentColor.opacity(0.3), lineWidth: 1)
+                                )
+                        )
+                        .foregroundStyle(accentColor)
+                }
             }
         }
     }
-}
 
 #Preview {
-    TagSections(title: "Authors", items: ["Naoki Urasawa"], symbol: "circle.hexagonpath.fill")
+    TagSections(title: "Authors", items: ["Naoki Urasawa"], symbol: "circle.hexagonpath.fill", accentColor: .blue)
 }

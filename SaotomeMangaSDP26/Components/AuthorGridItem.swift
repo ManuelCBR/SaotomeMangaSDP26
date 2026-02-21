@@ -48,8 +48,6 @@ struct AuthorGridItem: View {
         .background(
             ZStack {
                 gradient
-                
-                // Pattern de círculos
                 Circle()
                     .fill(.white.opacity(0.1))
                     .frame(width: 60, height: 60)

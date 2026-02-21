@@ -43,7 +43,6 @@ final class UserMangaCollectionViewModel {
         }
     }
     
-    //@Manuel, ver si es necesario.
     func updateProgress(
         mangaID: Int,
         volumesOwned: Int,

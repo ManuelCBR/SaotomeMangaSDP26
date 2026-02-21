@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-@MainActor let isiPhone = UIDevice.current.userInterfaceIdiom == .phone
-
 struct ContentView: View {
     var body: some View {
         TabView {
@@ -40,15 +38,6 @@ private extension View {
     func tabBarMinimizeIfAvailable() -> some View {
         if #available(iOS 26.0, *) {
             self.tabBarMinimizeBehavior(.onScrollDown)
-        } else {
-            self
-        }
-    }
-
-    @ViewBuilder
-    func sidebarAdaptableIfAvailable() -> some View {
-        if #available(iOS 26.0, *) {
-            self.tabViewStyle(.sidebarAdaptable)
         } else {
             self
         }

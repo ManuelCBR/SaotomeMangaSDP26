@@ -56,8 +56,6 @@ struct DemographicGridItem: View {
         .background(
             ZStack {
                 backgroundColor
-                
-                // Pattern decorativo
                 Circle()
                     .fill(.white.opacity(0.1))
                     .frame(width: 80, height: 80)

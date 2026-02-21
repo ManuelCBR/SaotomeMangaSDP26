@@ -35,6 +35,7 @@
 		A55729842F1D0C4E00CEAD59 /* FilterGridItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55729832F1D0C4E00CEAD59 /* FilterGridItem.swift */; };
 		A55729862F1D0C9600CEAD59 /* AuthorGridSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55729852F1D0C9600CEAD59 /* AuthorGridSection.swift */; };
 		A55729882F1D0CF700CEAD59 /* AuthorSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55729872F1D0CF700CEAD59 /* AuthorSearchView.swift */; };
+		A56ADECE2F49BE7E00FD4CFF /* SaotomeManga.icon in Resources */ = {isa = PBXBuildFile; fileRef = A56ADECD2F49BE7E00FD4CFF /* SaotomeManga.icon */; };
 		A576077B2F01372500336089 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57607772F01372500336089 /* ContentView.swift */; };
 		A576077C2F01372500336089 /* SaotomeMangaSDP26App.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57607792F01372500336089 /* SaotomeMangaSDP26App.swift */; };
 		A576077D2F01372500336089 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A57607762F01372500336089 /* Assets.xcassets */; };
@@ -75,6 +76,7 @@
 		A55729832F1D0C4E00CEAD59 /* FilterGridItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterGridItem.swift; sourceTree = "<group>"; };
 		A55729852F1D0C9600CEAD59 /* AuthorGridSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorGridSection.swift; sourceTree = "<group>"; };
 		A55729872F1D0CF700CEAD59 /* AuthorSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorSearchView.swift; sourceTree = "<group>"; };
+		A56ADECD2F49BE7E00FD4CFF /* SaotomeManga.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = SaotomeManga.icon; sourceTree = "<group>"; };
 		A57607662F0134B000336089 /* SaotomeMangaSDP26.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SaotomeMangaSDP26.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A57607762F01372500336089 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A57607772F01372500336089 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				A5191C752F0B0E49005B7C89 /* Model */,
 				A5256BD62F0EB1CD00D5491F /* ModelData */,
 				A57607762F01372500336089 /* Assets.xcassets */,
+				A56ADECD2F49BE7E00FD4CFF /* SaotomeManga.icon */,
 				A57607792F01372500336089 /* SaotomeMangaSDP26App.swift */,
 			);
 			path = SaotomeMangaSDP26;
@@ -283,6 +286,7 @@
 			files = (
 				A576077D2F01372500336089 /* Assets.xcassets in Resources */,
 				A576077E2F01372500336089 /* README.md in Resources */,
+				A56ADECE2F49BE7E00FD4CFF /* SaotomeManga.icon in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,7 +462,7 @@
 		A57607722F0134B200336089 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = SaotomeManga;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -491,7 +495,7 @@
 		A57607732F0134B200336089 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = SaotomeManga;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
