@@ -14,6 +14,9 @@ let api: URL = {
     return url
 }()
 
+/// Token de la app requerido para registro
+let appToken = "sLGH38NhEJ0_anlIWwhsz1-LarClEohiAHQqayF0FY"
+
 extension URL {
     // MARK: - Endpoints de listados
     static let getMangas = api.appending(path: "/list/mangas")
@@ -24,6 +27,12 @@ extension URL {
     static let getGenres = api.appending(path: "/list/genres")
     static let getDemographics = api.appending(path: "/list/demographics")
     static let getThemes = api.appending(path: "/list/themes")
+    
+    // MARK: - Authentication Endpoints
+    
+    static let registerUser = api.appending(path: "/users") /// Registrar nuevo usuario
+    static let loginUser = api.appending(path: "/users/login") /// Login de usuario
+    static let renewToken = api.appending(path: "/users/renew") /// Renovar token
     
     // MARK: - Endpoint con paginación
     // Mangas

@@ -12,12 +12,14 @@ import SwiftData
 struct SaotomeMangaSDP26App: App {
     @State private var vmMangaList = MangaListViewModel()
     @State private var vmUserCollection = UserMangaCollectionViewModel()
+    @State private var authViewModel = AuthViewModel()
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            AuthContainerView()
                 .environment(vmMangaList)
                 .environment(vmUserCollection)
+                .environment(authViewModel)
         }
         .modelContainer(for: UserMangaCollection.self)
     }

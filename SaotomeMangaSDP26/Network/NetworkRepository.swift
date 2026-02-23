@@ -8,6 +8,7 @@
 import Foundation
 import NetworkAPI
 
+//@manuel ELIMINAR LOS PRINTS
 struct NetworkRepository: NetworkInteractor {
     func getMangas(page: Int) async throws -> [MangaDTO] {
         let response = try await getJSON(
@@ -117,5 +118,122 @@ struct NetworkRepository: NetworkInteractor {
             .get(url: .searchAuthor(search)),
             type: [AuthorDTO].self
         )
+    }
+    
+    // MARK: - Authentication Methods
+
+    /// Registrar un nuevo usuario
+    /// - Parameters:
+    ///   - credentials: Email y password del usuario
+    /// - Returns: Void (el servidor solo devuelve 201 Created)
+    func register(_ credentials: RegisterCredentials) async throws {
+        // Crear la request
+        var request = URLRequest(url: .registerUser)
+        request.httpMethod = "POST"
+        
+        // Headers obligatorios
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue(appToken, forHTTPHeaderField: "App-Token")
+        
+        // Body con las credenciales
+        let encoder = JSONEncoder()
+        do {
+            request.httpBody = try encoder.encode(credentials)
+        } catch {
+            throw NetworkError.json(error)
+        }
+        
+        // Hacer la petición
+        let (_, response) = try await URLSession.shared.data(for: request)
+        
+        // Verificar que sea HTTPURLResponse
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkError.nonHTTP
+        }
+        
+        // Verificar status code 201 Created
+        guard httpResponse.statusCode == 201 else {
+            throw NetworkError.status(httpResponse.statusCode)
+        }
+        
+        print("✅ NetworkRepository: Usuario registrado exitosamente")
+    }
+    
+    /// Iniciar sesión
+    /// - Parameters:
+    ///   - credentials: Email y password del usuario
+    /// - Returns: AuthResponse con el token JWT
+    func login(_ credentials: LoginCredentials) async throws -> AuthResponse {
+        // Crear credenciales en Base64
+        let credentialsString = "\(credentials.email):\(credentials.password)"
+        guard let credentialsData = credentialsString.data(using: .utf8) else {
+            throw NetworkError.dataNotValid
+        }
+        let base64Credentials = credentialsData.base64EncodedString()
+        
+        // Crear la request
+        var request = URLRequest(url: .loginUser)
+        request.httpMethod = "POST"
+        
+        // Headers
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Basic \(base64Credentials)", forHTTPHeaderField: "Authorization")
+        
+        // Hacer la petición
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        // Verificar respuesta
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkError.nonHTTP
+        }
+        
+        guard httpResponse.statusCode == 200 else {
+            throw NetworkError.status(httpResponse.statusCode)
+        }
+        
+        // Decodificar el token
+        let decoder = JSONDecoder()
+        do {
+            let authResponse = try decoder.decode(AuthResponse.self, from: data)
+            print("✅ NetworkRepository: Login exitoso, token recibido")
+            return authResponse
+        } catch {
+            throw NetworkError.json(error)
+        }
+    }
+    
+    /// Renovar token actual
+    /// - Parameter currentToken: Token actual a renovar
+    /// - Returns: AuthResponse con el nuevo token
+    func renewAuthToken(_ currentToken: String) async throws -> AuthResponse {
+        // Crear la request
+        var request = URLRequest(url: .renewToken)
+        request.httpMethod = "POST"
+        
+        // Headers
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(currentToken)", forHTTPHeaderField: "Authorization")
+        
+        // Hacer la petición
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        // Verificar respuesta
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkError.nonHTTP
+        }
+        
+        guard httpResponse.statusCode == 200 else {
+            throw NetworkError.status(httpResponse.statusCode)
+        }
+        
+        // Decodificar el nuevo token
+        let decoder = JSONDecoder()
+        do {
+            let authResponse = try decoder.decode(AuthResponse.self, from: data)
+            print("✅ NetworkRepository: Token renovado exitosamente")
+            return authResponse
+        } catch {
+            throw NetworkError.json(error)
+        }
     }
 }

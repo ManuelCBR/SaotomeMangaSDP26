@@ -10,6 +10,7 @@ import SwiftData
 
 struct UserMangaCollectionView: View {
     @Environment(UserMangaCollectionViewModel.self) var userMangaCollectionViewModel
+    @Environment(AuthViewModel.self) var authViewModel
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @Query private var userMangaCollection: [UserMangaCollection]
     
@@ -72,6 +73,17 @@ struct UserMangaCollectionView: View {
             .navigationDestination(for: UserMangaCollection.self) { userManga in
                 DetailView(manga: userManga.toManga())
             }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        authViewModel.logout()
+                    } label: {
+                        Image(systemName: "rectangle.portrait.and.arrow.right")
+                            .foregroundStyle(.red)
+                    }
+                }
+            }
+
         }
     }
 }
@@ -79,4 +91,5 @@ struct UserMangaCollectionView: View {
 #Preview {
     UserMangaCollectionView()
         .environment(UserMangaCollectionViewModel())
+        .environment(AuthViewModel())
 }
