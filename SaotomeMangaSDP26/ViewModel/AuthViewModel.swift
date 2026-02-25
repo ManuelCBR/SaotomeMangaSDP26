@@ -7,7 +7,7 @@
 
 import Foundation
 import NetworkAPI
-//@manuel QUITAR LOS PRINTS
+
 @Observable
 @MainActor
 final class AuthViewModel {
@@ -49,7 +49,7 @@ final class AuthViewModel {
     func checkAuthStatus() {
             print("🔍 AuthViewModel: Verificando estado de autenticación...")
             
-            if let token = keychain.read(tokenKey) {
+        if keychain.read(tokenKey) != nil {
                 print("✅ AuthViewModel: Token encontrado")
                 isAuthenticated = true
                 currentUser = User(id: "temp", email: "temp@test.com")

@@ -13,6 +13,7 @@ struct MangaCard: View {
     
     @Query private var userCollection: [UserMangaCollection]
     @Environment(UserMangaCollectionViewModel.self) var userMangaCollectionViewModel
+    @Environment(\.modelContext) private var modelContext
     
     private var isInCollection: Bool {
         userCollection.contains { $0.id == manga.id }
@@ -41,7 +42,7 @@ struct MangaCard: View {
             .overlay(alignment: .topTrailing) {
                 // Bookmark button
                 Button {
-                    userMangaCollectionViewModel.toggleCollection(manga)
+                    userMangaCollectionViewModel.toggleCollection(manga, context: modelContext)
                 } label: {
                     Image(systemName: isInCollection ? "bookmark.fill" : "bookmark")
                         .font(.title3)

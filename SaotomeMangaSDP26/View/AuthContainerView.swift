@@ -11,11 +11,16 @@ import SwiftUI
 /// según el estado de autenticación
 struct AuthContainerView: View {
     @Environment(AuthViewModel.self) private var authVM
+    @Environment(UserMangaCollectionViewModel.self) private var collectionVM
+    @Environment(\.modelContext) private var modelContext
     
     var body: some View {
         Group {
             if authVM.isAuthenticated {
                 ContentView()
+                    .task {
+                        await collectionVM.syncWithCloud(context: modelContext)
+                    }
             } else {
                 LoginView()
             }
@@ -27,4 +32,5 @@ struct AuthContainerView: View {
 #Preview {
     AuthContainerView()
         .environment(AuthViewModel())
+        .environment(UserMangaCollectionViewModel())
 }

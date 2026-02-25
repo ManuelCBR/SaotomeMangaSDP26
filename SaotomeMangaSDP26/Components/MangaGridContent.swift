@@ -50,7 +50,6 @@ struct MangaGridContent: View {
                                 if let onLoadMore {
                                     await onLoadMore(manga)
                                 }
-                                userMangaCollectionViewModel.setModelContext(modelContext)
                             }
                         }
                         

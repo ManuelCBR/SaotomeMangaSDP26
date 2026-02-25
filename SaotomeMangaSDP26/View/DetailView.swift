@@ -16,6 +16,7 @@ struct DetailView: View {
     
     @Environment(UserMangaCollectionViewModel.self) var userMangaCollectionViewModel
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @Environment(\.modelContext) private var modelContext
     
     @Query private var userCollection: [UserMangaCollection]
 
@@ -82,7 +83,7 @@ struct DetailView: View {
                             .foregroundStyle(.orange)
                         Spacer()
                         Button {
-                            userMangaCollectionViewModel.toggleCollection(manga)
+                            userMangaCollectionViewModel.toggleCollection(manga, context: modelContext)
                         } label: {
                             Image(systemName: isInCollection ? "bookmark.fill" : "bookmark")
                                 .foregroundStyle(.orange)
@@ -153,7 +154,7 @@ struct DetailView: View {
                 .padding()
                 
                 //Datos de colección si procede
-                if let userManga = userMangaCollectionViewModel.getMangaFromCollection(manga.id) {
+                if let userManga = userMangaCollectionViewModel.getMangaFromCollection(manga.id, context: modelContext) {
                     VStack(alignment: .leading, spacing: 12) {
                         Text("Mi Progreso")
                             .font(.headline)
@@ -217,7 +218,7 @@ struct DetailView: View {
                 }
             }
             .sheet(isPresented: $showEditProgress) {
-                if let userManga = userMangaCollectionViewModel.getMangaFromCollection(manga.id) {
+                if let userManga = userMangaCollectionViewModel.getMangaFromCollection(manga.id, context: modelContext) {
                     ProgressEditView(userManga: userManga)
                 }
             }

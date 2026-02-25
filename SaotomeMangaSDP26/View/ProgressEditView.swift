@@ -10,6 +10,7 @@ import SwiftUI
 struct ProgressEditView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(UserMangaCollectionViewModel.self) var viewModel
+    @Environment(\.modelContext) private var modelContext
     
     let userMangaCollection: UserMangaCollection
     
@@ -56,7 +57,8 @@ struct ProgressEditView: View {
                             mangaID: userMangaCollection.id,
                             volumesOwned: volumesOwned,
                             readingVolume: readingVolume,
-                            hasCompleteCollection: hasCompleteCollection
+                            hasCompleteCollection: hasCompleteCollection,
+                            context: modelContext
                         )
                         dismiss()
                     } label: {

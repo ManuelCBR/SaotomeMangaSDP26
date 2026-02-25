@@ -123,4 +123,17 @@ extension URL {
     static func searchAuthor(_ search: String) -> URL {
         api.appending(path: "/search/author/\(search)")
     }
+    
+    // MARK: - Collection Endpoints
+
+    /// Obtener toda la colección del usuario
+    static let getUserCollection = api.appending(path: "/collection/manga")
+
+    /// Añadir/actualizar manga en colección (mismo endpoint que GET, pero POST)
+    static let addToCollection = api.appending(path: "/collection/manga")
+
+    /// Obtener/eliminar manga específico de colección
+    static func collectionManga(_ mangaId: Int) -> URL {
+        api.appending(path: "/collection/manga/\(mangaId)")
+    }
 }

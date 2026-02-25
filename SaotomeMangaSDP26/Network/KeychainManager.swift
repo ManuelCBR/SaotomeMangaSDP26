@@ -46,7 +46,6 @@ final class KeychainManager {
         
         // Verificar si se guardó correctamente
         if status == errSecSuccess {
-            print("✅ KeychainManager: Guardado '\(key)' correctamente")
             return true
         } else {
             print("❌ KeychainManager: Error al guardar '\(key)'. Status: \(status)")
@@ -72,7 +71,6 @@ final class KeychainManager {
         
         // 3. Verificar si encontró algo
         guard status == errSecSuccess else {
-            print("⚠️ KeychainManager: No se encontró '\(key)' en Keychain")
             return nil
         }
         
@@ -82,8 +80,6 @@ final class KeychainManager {
             print("❌ KeychainManager: No se pudo convertir Data a String")
             return nil
         }
-        
-        print("✅ KeychainManager: Leído '\(key)' correctamente")
         return value
     }
     

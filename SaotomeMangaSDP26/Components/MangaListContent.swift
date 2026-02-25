@@ -48,12 +48,12 @@ struct MangaListContent: View {
                                 ) {
                                     Button {
                                         userMangaCollectionViewModel
-                                            .toggleCollection(manga)
+                                            .toggleCollection(manga, context: modelContext)
                                     } label: {
                                         Image(
                                             systemName:
                                                 userMangaCollectionViewModel
-                                                .isInCollection(manga.id)
+                                                .isInCollection(manga.id, context: modelContext)
                                                 ? "bookmark.fill" : "bookmark"
                                         )
                                     }
@@ -63,7 +63,6 @@ struct MangaListContent: View {
                             if let onLoadMore {
                                 await onLoadMore(manga)
                             }
-                            userMangaCollectionViewModel.setModelContext(modelContext)
                         }
                     }
 

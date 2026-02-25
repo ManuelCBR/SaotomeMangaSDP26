@@ -120,6 +120,17 @@ struct NetworkRepository: NetworkInteractor {
         )
     }
     
+    // MARK: - Helper privado para obtener token
+        
+    /// Obtiene el token de autenticación del Keychain
+    /// - Throws: NetworkError.dataNotValid si no hay token
+    private func getAuthToken() throws -> String {
+        guard let token = KeychainManager.shared.read("authToken") else {
+            throw NetworkError.dataNotValid
+        }
+        return token
+    }
+    
     // MARK: - Authentication Methods
 
     /// Registrar un nuevo usuario
@@ -235,5 +246,150 @@ struct NetworkRepository: NetworkInteractor {
         } catch {
             throw NetworkError.json(error)
         }
+    }
+    
+    // MARK: - Collection Methods
+
+    /// Obtener toda la colección del usuario
+    /// - Returns: Array de items de la colección
+    func getUserCollection() async throws -> [UserCollectionItemDTO] {
+        // Obtener token
+        let token = try getAuthToken()
+        
+        // Crear request
+        var request = URLRequest(url: .getUserCollection)
+        request.httpMethod = "GET"
+        
+        // Headers
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        // Hacer petición
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        // Verificar respuesta
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkError.nonHTTP
+        }
+        
+        guard httpResponse.statusCode == 200 else {
+            throw NetworkError.status(httpResponse.statusCode)
+        }
+        
+        // Decodificar
+        let decoder = JSONDecoder()
+        do {
+            let collectionItems = try decoder.decode([UserCollectionItemDTO].self, from: data)
+            print("✅ NetworkRepository: Colección obtenida - \(collectionItems.count) items")
+            return collectionItems
+        } catch {
+            throw NetworkError.json(error)
+        }
+    }
+    
+    /// Añadir o actualizar un manga en la colección
+    /// - Parameter item: Datos del manga a añadir/actualizar
+    func addToCollection(_ item: CreateCollectionItemRequest) async throws {
+        // Obtener token
+        let token = try getAuthToken()
+        
+        // Crear request
+        var request = URLRequest(url: .addToCollection)
+        request.httpMethod = "POST"
+        
+        // Headers
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        // Body
+        let encoder = JSONEncoder()
+        do {
+            request.httpBody = try encoder.encode(item)
+        } catch {
+            throw NetworkError.json(error)
+        }
+        
+        // Hacer petición
+        let (_, response) = try await URLSession.shared.data(for: request)
+        
+        // Verificar respuesta
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkError.nonHTTP
+        }
+        
+        // Puede ser 200 (actualizado) o 201 (creado)
+        guard httpResponse.statusCode == 200 || httpResponse.statusCode == 201 else {
+            throw NetworkError.status(httpResponse.statusCode)
+        }
+        
+        print("✅ NetworkRepository: Manga añadido/actualizado en colección")
+    }
+
+    /// Obtener un manga específico de la colección
+    /// - Parameter mangaId: ID del manga
+    /// - Returns: Item de la colección
+    func getCollectionManga(_ mangaId: Int) async throws -> UserCollectionItemDTO {
+        // Obtener token
+        let token = try getAuthToken()
+        
+        // Crear request
+        var request = URLRequest(url: .collectionManga(mangaId))
+        request.httpMethod = "GET"
+        
+        // Headers
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        // Hacer petición
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        // Verificar respuesta
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkError.nonHTTP
+        }
+        
+        guard httpResponse.statusCode == 200 else {
+            throw NetworkError.status(httpResponse.statusCode)
+        }
+        
+        // Decodificar
+        let decoder = JSONDecoder()
+        do {
+            let collectionItem = try decoder.decode(UserCollectionItemDTO.self, from: data)
+            print("✅ NetworkRepository: Manga obtenido de colección - ID: \(mangaId)")
+            return collectionItem
+        } catch {
+            throw NetworkError.json(error)
+        }
+    }
+
+    /// Eliminar un manga de la colección
+    /// - Parameter mangaId: ID del manga a eliminar
+    func deleteFromCollection(_ mangaId: Int) async throws {
+        // Obtener token
+        let token = try getAuthToken()
+        
+        // Crear request
+        var request = URLRequest(url: .collectionManga(mangaId))
+        request.httpMethod = "DELETE"
+        
+        // Headers
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        
+        // Hacer petición
+        let (_, response) = try await URLSession.shared.data(for: request)
+        
+        // Verificar respuesta
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw NetworkError.nonHTTP
+        }
+        
+        // Puede ser 200 o 204 (No Content)
+        guard httpResponse.statusCode == 200 || httpResponse.statusCode == 204 else {
+            throw NetworkError.status(httpResponse.statusCode)
+        }
+        
+        print("✅ NetworkRepository: Manga eliminado de colección - ID: \(mangaId)")
     }
 }

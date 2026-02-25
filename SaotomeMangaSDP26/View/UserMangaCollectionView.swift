@@ -12,6 +12,7 @@ struct UserMangaCollectionView: View {
     @Environment(UserMangaCollectionViewModel.self) var userMangaCollectionViewModel
     @Environment(AuthViewModel.self) var authViewModel
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @Environment(\.modelContext) private var modelContext
     @Query private var userMangaCollection: [UserMangaCollection]
     
     private var mangas: [Manga] {
@@ -43,7 +44,7 @@ struct UserMangaCollectionView: View {
                                     .buttonStyle(.plain)
                                     .contextMenu {
                                         Button(role: .destructive) {
-                                            userMangaCollectionViewModel.removeFromCollection(from: userManga.id)
+                                            userMangaCollectionViewModel.removeFromCollection(from: userManga.id, context: modelContext)
                                         } label: {
                                             Label("Delete", systemImage: "trash")
                                         }
@@ -58,7 +59,7 @@ struct UserMangaCollectionView: View {
                                 MangaRow(manga: userManga.toManga())
                                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                         Button(role: .destructive) {
-                                            userMangaCollectionViewModel.removeFromCollection(from: userManga.id)
+                                            userMangaCollectionViewModel.removeFromCollection(from: userManga.id, context: modelContext)
                                         } label: {
                                             Label("Eliminar", systemImage: "trash")
                                         }
