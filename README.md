@@ -164,7 +164,7 @@ https://mymanga-acacademy-5607149ebe3d.herokuapp.com/
 ## 🔒 Seguridad
 
 - ✅ **Keychain** - Credenciales almacenadas en la cartera de certificados del dispositivo
-- ✅ **Token-based Auth** - Autenticación mediante tokens JWT
+- ✅ **Token-based Auth** - Autenticación mediante tokens
 - ✅ **HTTPS** - Todas las comunicaciones cifradas
 - ✅ **Token expiration** - Tokens válidos por 2 días con renovación automática
 - ✅ **Secure Password** - Validación de contraseñas (mínimo 8 caracteres)
